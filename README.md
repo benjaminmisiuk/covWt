@@ -36,14 +36,15 @@ plot(a, b)
 ```
 #check unweighted VE
 ve(a, b)
-[1] 0.5159723
+#[1] 0.5159723
 
 #generate random vector of weights
 wt = runif(100)
 
 #return weighted VE
 ve_wt(a, b, wt)
-[1] 0.5071803
+#[1] 0.5071803
 ```
 
 ## Simulation scripts
+Scripts used to perform the simulations for each validation method are provided in the directory "covBagging\scripts". Suggest opening the script in R to load in custom data and view code annotations.
