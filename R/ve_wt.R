@@ -29,16 +29,20 @@
 #' @export
 #' 
 
-#calculate unweighted VE
-ve <- function(y_h, y){
-  SSres = sum((y - y_h)^2)
-  SStot = sum((y - mean(y))^2)
-  1 - (SSres/SStot)
-}
-
 #calculate weighted VE
 ve_wt <- function(y_h, y, wt){
   SSres = sum((y - y_h)^2 * wt) / sum(wt)
   SStot = sum((y - mean(y))^2 * wt) / sum(wt)
   1 - ((SSres)/(SStot))
+}
+
+#' @rdname ve_wt
+#' @export
+#' 
+
+#calculate unweighted VE
+ve <- function(y_h, y){
+  SSres = sum((y - y_h)^2)
+  SStot = sum((y - mean(y))^2)
+  1 - (SSres/SStot)
 }

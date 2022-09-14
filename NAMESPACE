@@ -2,8 +2,10 @@
 
 export(eqCov)
 export(mse)
+export(mse_wt)
 export(r_wt)
 export(rmse)
 export(rmse_wt)
 export(ve)
+export(ve_wt)
 import(terra)

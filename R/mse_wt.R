@@ -29,6 +29,16 @@
 #' @export
 #' 
 
+#calculate weighted MSE
+mse_wt <- function(y_h, y, wt){
+  SS = sum((y - y_h)^2 * wt)
+  SS/sum(wt)
+}
+
+#' @rdname mse_wt
+#' @export
+#' 
+
 #calculate unweighted MSE
 mse <- function(y_h, y){
   n = length(y)
@@ -36,8 +46,4 @@ mse <- function(y_h, y){
   SS/n
 }
 
-#calculate weighted MSE
-mse_wt <- function(y_h, y, wt){
-  SS = sum((y - y_h)^2 * wt)
-  SS/sum(wt)
-}
+
