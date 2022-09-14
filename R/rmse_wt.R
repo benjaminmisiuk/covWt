@@ -33,6 +33,7 @@ rmse_wt <- function(y_h, y, wt){
   sqrt(mse_wt(y_h, y, wt))
 }
 
+#' @rdname rmse_wt
 #' @export
 #' 
 

@@ -2,9 +2,12 @@
 % Please edit documentation in R/rmse_wt.R
 \name{rmse_wt}
 \alias{rmse_wt}
+\alias{rmse}
 \title{Weighted Root Mean Squared Error}
 \usage{
 rmse_wt(y_h, y, wt)
+
+rmse(y_h, y)
 }
 \arguments{
 \item{y_h}{Vector of predicted values.}
