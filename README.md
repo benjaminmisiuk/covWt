@@ -36,12 +36,14 @@ plot(a, b)
 ```
 #check unweighted VE
 ve(a, b)
+[1] 0.5159723
 
 #generate random vector of weights
 wt = runif(100)
 
 #return weighted VE
 ve_wt(a, b, wt)
+[1] 0.5071803
 ```
 
 ## Simulation scripts
