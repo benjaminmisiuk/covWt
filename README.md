@@ -20,7 +20,7 @@ library(covBagging)
 help(package = 'covBagging')
 ```
 
-Below is an example of calculated the weighted variance explained:
+Below is an example for calculating the weighted variance explained:
 
 ```
 #generate random data
