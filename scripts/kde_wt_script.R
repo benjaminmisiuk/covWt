@@ -82,7 +82,7 @@ for(l in buff_width){
       #unweighted random forest
       rf <- randomForest(form, data = df)
       
-      #obtain matrix of out-of-bag predictions and observed values
+      #obtain matrix of out of bag predictions and observed values
       val <- na.omit(cbind(predict(rf), df[ ,y_hat]))
       #predict full matrix over the extent of the raster data
       true_mat <- cbind(predict(rf, mat), mat[ ,y_hat])
