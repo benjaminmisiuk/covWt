@@ -28,12 +28,16 @@
 #' @export
 #' 
 
+#calculate weighted RMSE
+rmse_wt <- function(y_h, y, wt){
+  sqrt(mse_wt(y_h, y, wt))
+}
+
+#' @export
+#' 
+
 #calculate unweighted RMSE
 rmse <- function(y_h, y){
   sqrt(mse(y_h, y))
 }
 
-#calculate weighted RMSE
-rmse_wt <- function(y_h, y, wt){
-  sqrt(mse_wt(y_h, y, wt))
-}
