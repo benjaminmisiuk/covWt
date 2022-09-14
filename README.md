@@ -1,5 +1,5 @@
 # covBagging
-Spatial covariance weighting for bagging models in R
+### Spatial covariance weighting for bagging models in R
 
 This package provides functions and scripts that were used to perform the simulations presented in the manuscript, "Improved prediction and validation of bagging models with spatially clustered data".
 
