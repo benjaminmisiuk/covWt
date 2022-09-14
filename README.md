@@ -5,7 +5,7 @@ This package provides functions and scripts that were used to perform the simula
 
 ## Installation
 
-You can use the remotes package to install the package directly from github. Install remotes first if you do not have it. 
+You can use the `remotes` package to install the package directly from github. Install `remotes` first if you do not have it. 
 
 ```
 install.packages("remotes")
