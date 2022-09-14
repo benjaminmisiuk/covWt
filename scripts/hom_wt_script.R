@@ -7,15 +7,7 @@ library(bulkshift)
 library(tidyr)
 library(spatialEco)
 library(randomForest)
-
-#define spherical variogram model function
-Sph <- function(h, a){
-  ifelse(
-    h > a,
-    1,
-    ((3*h) / (2*a)) - ((1/2)*(h/a)^3)
-  )
-}
+library(covBagging)
 
 #setwd()
 
@@ -42,15 +34,25 @@ x_hat = c('bath', 'mean_v', 'back', 'x', 'y')
 #indicate a directory for writing results
 out = 'D:/Documents/R/scratch/'
 
+#aggregated the stack 20x
+agg <- aggregate(stack, 20)
+
+#convert to sp grid for conditional Gaussian simulation
+grid <- as.data.frame(agg[[y_hat]], xy = TRUE)
+grid <- grid[ ,c('x', 'y')]
+gridded(grid) = ~x+y
+crs(grid) <- crs(agg)
+
 #if a vector of cluster radii were provided, run them in a loop 
 for(l in buff_width){
   
   #also loop through `ind_pts` if a vector was supplied
   for(k in ind_pts){
     
-    #initialize results and run selected parameters x100
+    #initialize results and run selected parameters x100 (using `while` because simulations can fail)
     results <- list()
-    for(j in 1:3){
+    while(length(results) < 100){
+      j = length(results) + 1
       cat(j, n, 'points,', k, 'independent,', l, 'm buffer            ', '\r')
       
       #randomly select n_clust locations
@@ -118,59 +120,85 @@ for(l in buff_width){
       df$res <- df[ ,y_hat] - predict(rf)
       #convert to sp class
       df_spat <- df; coordinates(df_spat) = ~x+y
+      crs(df_spat) <- crs(agg)
       
-      #fit a spherical variogram model
-      auto_fit <- autofitVariogram(res ~ 1, df_spat, model = 'Sph')
+      #fit a variogram model
+      auto_fit <- autofitVariogram(res ~ 1, df_spat, model = c('Exp', 'Gau', 'Sph'))
       #plot(auto_fit)
       
-      #extract variogram model parameters
-      r = auto_fit$var_model$range[2]
-      nug = auto_fit$var_model$psill[1]
-      psil = auto_fit$var_model$psill[2]
+      #try 500 conditional simulations using the coarse sp grid with max of 50 local points
+      try(
+        res_map <- gstat::krige(
+          formula = res ~ 1, 
+          remove.duplicates(df_spat), 
+          newdata = grid,
+          model = auto_fit$var_model,
+          nsim = 500,
+          nmax = 50,
+          debug.level = 0
+        )
+      )
+      #spplot(res_map[1:9])
       
-      #convert spatVector to data frame for modelling
-      df <- as.data.frame(p_c)
-      df <- df[complete.cases(df), ]
-      
-      #calculate distance matrix between sample points
-      d_mat <- distance(as.matrix(df[ ,c('x', 'y')]), lonlat = FALSE)
-      d_mat <- as.matrix(d_mat)
-      
-      #determine the "range" at which autocorrelation is negligible, or 1/4 the max distance
-      r_min = min(r, max(d_mat)/4)
-      
-      #initialize results list and leave out each sample in turn
-      p <- list()
-      for(i in 1:nrow(df)){
-        #leave out sample i
-        loo <- df[i, ]
-        #retain all samples that are greater in distance from i than the range
-        loo_df <- df[d_mat[ ,i] > r_min, ]
+      #if simulations did not fail, save the result
+      if(exists('res_map')){
         
-        #random forest using only distal points
-        rf <- randomForest(form, data = loo_df)
-        #predict the withheld test point i
-        p[[i]] <- predict(rf, loo)
-      }; rm(loo, loo_df)
-      
-      #obtain matrix of out-of-bag predictions and observed values
-      val <- na.omit(cbind(do.call(rbind, p), df[ ,y_hat]))
-      
-      #record "apparent" model performance using spatial validation
-      result_i$cor_val = cor(val[ ,1], val[ ,2])
-      result_i$mse_val = mse(val[, 1], val[, 2])
-      result_i$rmse_val = rmse(val[, 1], val[, 2])
-      result_i$ve_val = ve(val[, 1], val[, 2])
-      
-      #record this iteration in the results list
-      results[[j]] <- result_i
+        #convert simulated residual surfaces back to terra
+        res_sr <- rast(raster::stack(res_map))
+        rm(res_map)
+        crs(res_sr) <- crs(agg)
+        
+        #resample to aggregated grid size
+        res_sr <- resample(res_sr, agg)
+        #predict the random forest model for the aggregated grid
+        agg_pred <- predict(agg, rf)
+        #calculate the simulated response surface using the random forest prediction and each simulated residual surface
+        yhat_sim <- agg_pred + res_sr
+        
+        #plot(c(agg[y_hat], yhat_sim[[1]]))
+        
+        #get the full raster prediction and true response surface
+        true_mat <- na.omit(as.matrix(c(agg_pred, agg[y_hat])))
+        
+        #record the "true" unweighted model performance using the aggregated grids
+        result_i$cor_true_agg = cor(true_mat[ ,1], true_mat[ ,2])
+        result_i$mse_true_agg = mse(true_mat[ ,1], true_mat[ ,2])
+        result_i$rmse_true_agg = rmse(true_mat[ ,1], true_mat[ ,2])
+        result_i$ve_true_agg = ve(true_mat[ ,1], true_mat[ ,2])
+
+        #calculate validation stats from each conditional simulated response surface
+        val500 <- list()
+        for(i in 1:nlyr(yhat_sim)){
+          
+          #for each simulated response surface, get the predictions and simulation as a matrix
+          v <- na.omit(as.matrix(c(agg_pred, yhat_sim[[i]])))
+          
+          #record the validation stats for layer i
+          val500[[i]] <- data.frame(
+            cor_val = cor(v[ ,1], v[ ,2]),
+            mse_val = mse(v[ ,1], v[ ,2]),
+            rmse_val = rmse(v[ ,1], v[ ,2]),
+            ve_val = ve(v[ ,1], v[ ,2])
+          )
+        }; rm(v)
+        val500 <- do.call(rbind, val500)
+        
+        #take the mean of the validation statistics over 500 simulations
+        result_i$cor_val = mean(val500$cor_val)
+        result_i$mse_val = mean(val500$mse_val)
+        result_i$rmse_val = mean(val500$rmse_val)
+        result_i$ve_val = mean(val500$ve_val)
+        
+        #record this iteration in the results list
+        results[[j]] <- result_i
+      }
       
       #clean up the environment
-      rm(auto_fit, buff, df_spat, p_c, p1, p2, val, rf, p_clust, d_mat, result_i, df, p, nug, psil, r, r_min)
+      rm(auto_fit, buff, df_spat, p_c, p1, p2, rf, p_clust, result_i, df, true_mat, res_sr, agg_pred, val500, yhat_sim)
       gc()
     }
     
     #after 100x simulation runs for a given set of parameters, output the result to the specified directory
-    save(results, file = paste0(out, paste('sloo', y_hat, n, n_clust, l, k, n-k, '.RData', sep = '_')))
+    save(results, file = paste0(out, paste('hom', y_hat, n, n_clust, l, k, n-k, '.RData', sep = '_')))
   }
 }

@@ -50,7 +50,7 @@ for(l in buff_width){
   #also loop through `ind_pts` if a vector was supplied
   for(k in ind_pts){
     
-    #initialize results and run selected paramters x100
+    #initialize results and run selected parameters x100
     results <- list()
     for(j in 1:100){
       cat(j, n, 'points,', k, 'independent,', l, 'm buffer            ', '\r')
