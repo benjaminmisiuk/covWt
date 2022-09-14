@@ -19,7 +19,7 @@ Sph <- function(h, a){
   )
 }
 
-#setwd('D:/Documents/ArcGIS/scratch/mars_eg')
+#setwd()
 
 #read in aligned and masked raster layers from the working directory as a spatRaster
 stack <- rast(list.files(full.names = TRUE))
@@ -52,7 +52,7 @@ for(l in buff_width){
     
     #initialize results and run selected paramters x100
     results <- list()
-    for(j in 1:5){
+    for(j in 1:100){
       cat(j, n, 'points,', k, 'independent,', l, 'm buffer            ', '\r')
       
       #randomly select n_clust locations
@@ -89,7 +89,7 @@ for(l in buff_width){
         )
       )
       
-      #unweighre random forest
+      #unweighted random forest
       rf <- randomForest(form, data = df)
       
       #obtain matrix of out-of-bag predictions and observed values
