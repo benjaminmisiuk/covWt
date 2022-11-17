@@ -55,7 +55,7 @@ eqCov <- function(x){
   }
   
   #use `prod` to determine whether any cell value at a given location is NA
-  msk<- prod(msk)
+  msk <- prod(msk)
   msk[msk == 0] <- NA
   
   #mask and trim x
