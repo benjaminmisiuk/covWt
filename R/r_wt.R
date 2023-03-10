@@ -13,7 +13,7 @@
 #' 
 #' @examples
 #' #generate random data
-#' a <- runif(100, 0, 3.5)
+#' a <- runif(100, 0, 3)
 #' 
 #' #simulate a linear dependent covariate with noise
 #' b <- a + rnorm(100)
