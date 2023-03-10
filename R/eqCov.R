@@ -34,8 +34,6 @@
 #' #example where an outer row is na
 #' a[1:10] <- NA
 #' 
-#' #random change here
-#' 
 #' r <- rast(list(a, b, c))
 #' plot(r, colNA = 'black')
 #' 
