@@ -153,7 +153,7 @@ for(l in buff_width){
         }
         
         #transform semivariance into covariance and store in the matrix
-        wt_mat[i, ] <- psil * (1 - auto_mod)
+        wt_mat[i, ] <- nug + psil - (nug + psil * auto_mod) #nug + psil is the sill, nug + psil * auto_mod is semivariance
       }
       
       #get the sum of spatial covariance for each point
