@@ -20,8 +20,8 @@ A vector of semivariance values.
 Functions to transform distance into semivariance.
 }
 \details{
-Transforms a vector of distances \code{h} to semivariance $\gamma(h)$ according to a semivariogram model function. Note this does not include nugget or sill components
-Use $c(0)+c(varFunc())$, for example, to plot semivariance, where $c(0)$ is the nugget and $c$ is the partial sill.
+Transforms a vector of distances \code{h} to semivariance \eqn{gamma(h)} according to a semivariogram model function. Note this does not include nugget or sill components
+Use \eqn{c(0)+c(varFunc())}, for example, to plot semivariance, where \eqn{c(0)} is the nugget and $c$ is the partial sill.
 Currently supported model functions are the exponential, Gaussian, and spherical.
 }
 \examples{
