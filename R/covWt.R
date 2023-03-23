@@ -1,9 +1,9 @@
-#' covWt
+#' Residual covariance spatial weights
 #' 
 #' Calculate covariance weighting for spatial data points based on residual spatial autocorrelation.
 #' 
 #' @details 
-#' Calculates spatial data point weights based on the sum of residual spatial covariances for each point.
+#' Calculates spatial data point weights based on the sum of residual spatial covariances for each point. These can be used e.g., for bagging or validation. 
 #' Provide either a variogram model from [gstat] or the parameters of a model fitted to prediction residuals.
 #' Currently supports exponential ("Exp"), Gaussian ("Gau"), and spherical ("Sph") models. 
 #' Currently does not support nested variogram models. If you would like to use these, call `covWt` separately for each model and sum them.
