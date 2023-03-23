@@ -1,9 +1,9 @@
-# covBagging
-### Spatial covariance weighting for bagging models in R
+# covWt
+### Spatial covariance weighting in R
 
 This package provides functionality and scripts that were used to perform residual covariance-weighted bagging and validation as presented in the manuscript, *Improved environmental mapping and validation using bagging models with spatially clustered data*. 
 
-Code used to perform the simulations for each validation method presented in the study are found in the "covBagging\scripts" directory. Suggest opening the script in R to load in custom data and view code annotations.
+Code used to perform the simulations for each validation method presented in the study are found in the "covWt\scripts" directory. Suggest opening the script in R to load in custom data and view code annotations.
 
 ## Installation
 
@@ -11,15 +11,15 @@ You can use the `remotes` package to install the package directly from github. I
 
 ```
 install.packages("remotes")
-remotes::install_github("benjaminmisiuk/covBagging")
+remotes::install_github("benjaminmisiuk/covWt")
 ```
 
 ## Loading functions
 The functions can then be loaded into your R environment.
 
 ```
-library(covBagging)
-help(package = 'covBagging')
+library(covWt)
+help(package = 'covWt')
 ```
 
 Below is an example for calculating the weighted variance explained:
