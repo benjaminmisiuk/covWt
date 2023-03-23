@@ -1,10 +1,10 @@
-Package: covBagging
-Title: Spatial covariance weighting for bagging models in R
+Package: covWt
+Title: Spatial covariance weighting in R
 Version: 0.0.0.9000
 Authors@R: 
     person("Benjamin", "Misiuk", , "benjaminmisiuk@gmail.com", role = c("aut", "cre"))
-URL: https://github.com/benjaminmisiuk/bulkshift
-Description: The package provides code and functions to perform spatial covariance weighted bagging. Companion to the manusctript "Improved prediction and validation of bagging models with spatially clustered data" by Misiuk & Brown (2022).
+URL: https://github.com/benjaminmisiuk/covWt
+Description: The package provides code and functions to calculate spatial covariance weights, e.g., for bagging and spatial validation. Companion to the manusctript "Improved environmental mapping and validation using bagging models with spatially clustered data" by Misiuk & Brown (2022).
 License: `use_mit_license()`
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
