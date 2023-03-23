@@ -1,7 +1,9 @@
 # covBagging
 ### Spatial covariance weighting for bagging models in R
 
-This package provides functions and scripts that were used to perform the simulations presented in the manuscript, *Improved prediction and validation of bagging models with spatially clustered sample data*.
+This package provides functionality and scripts that were used to perform residual covariance-weighted bagging and validation as presented in the manuscript, *Improved environmental mapping and validation using bagging models with spatially clustered data*. 
+
+Code used to perform the simulations for each validation method presented in the study are found in the "covBagging\scripts" directory. Suggest opening the script in R to load in custom data and view code annotations.
 
 ## Installation
 
@@ -45,6 +47,3 @@ wt = runif(100)
 ve_wt(a, b, wt)
 #[1] 0.5071803
 ```
-
-## Simulation scripts
-Scripts used to perform the simulations for each validation method are provided in the directory "covBagging\scripts". Suggest opening the script in R to load in custom data and view code annotations.
