@@ -2,11 +2,13 @@
 % Please edit documentation in R/covWt.R
 \name{covWt}
 \alias{covWt}
-\title{covWt}
+\title{Residual covariance spatial weights}
 \usage{
-covWt(x, model, m, a, nug, psil, dmat)
+covWt(dmat, model = NULL, m, a, nug, psil)
 }
 \arguments{
+\item{dmat}{Distance matrix. Can be of class "dist" or a symmetric matrix of distances between points with diagonals included.}
+
 \item{model}{variogramModel class, for example as returned from \code{\link[gstat:fit.variogram]{gstat::fit.variogram()}} or \code{\link[automap:autofitVariogram]{automap::autofitVariogram()}}.}
 
 \item{m}{Character. Type of variogram model. Must be one of "Exp", "Gau", or "Sph". Ignored if \code{model} is provided.}
@@ -16,8 +18,6 @@ covWt(x, model, m, a, nug, psil, dmat)
 \item{nug}{Numeric. Nugget parameter of a variogram model. Ignored if \code{model} is provided.}
 
 \item{psil}{Numeric. Partial sill of a variogram model. Ignored if \code{model} is provided.}
-
-\item{dmat}{Distance matrix. Can be of class "dist" or a symmetric matrix of distances between points with diagonals included.}
 }
 \value{
 A vector of weights.
@@ -26,12 +26,60 @@ A vector of weights.
 Calculate covariance weighting for spatial data points based on residual spatial autocorrelation.
 }
 \details{
-Calculates spatial data point weights based on the sum of residual spatial covariances for each point.
+Calculates spatial data point weights based on the sum of residual spatial covariances for each point. These can be used e.g., for bagging or validation.
 Provide either a variogram model from \link{gstat} or the parameters of a model fitted to prediction residuals.
 Currently supports exponential ("Exp"), Gaussian ("Gau"), and spherical ("Sph") models.
 Currently does not support nested variogram models. If you would like to use these, call \code{covWt} separately for each model and sum them.
 }
 \examples{
+x <- rgamma(100, 1)
+y <- rgamma(100, 1)
 
+plot(x, y)
+
+df <- data.frame(x, y)
+
+#get a distance matrix of the observations
+d <- dist(df)
+
+#we can use parameters from some fitted residual exponential variogram
+m = "Sph"
+r = 1
+nug = 0.1
+psil = 0.3
+
+wt <- covWt(dmat = d, m = m, a = r, nug = nug, psil = psil)
+
+symbols(x, y, circles = wt, inches = 0.5, xlim = c(0,6), ylim = c(0,6))
+
+#or we could take a residual variogram model from gstat
+library(gstat)
+mod <- gstat::vgm(psil, "Sph", r, nug)
+
+wt <- covWt(dmat = d, model = mod)
+
+symbols(x, y, circles = wt, inches = 0.5, xlim = c(0,6), ylim = c(0,6))
+
+#we can also use gstat to fit a model
+library(sp)
+data(meuse)
+df <- meuse
+coordinates(meuse) = ~x+y
+
+plot(meuse)
+
+#obtain the residual variogram from universal kriging
+g <-variogram(log(zinc)~x+y, meuse)
+fit <- fit.variogram(g, vgm("Sph"))
+
+plot(g, fit)
+
+#calculate the distance matrix
+d = dist(df[ ,c("x", "y")])
+
+#calculate covariance weights using the fitted residual variogram model
+wt <- covWt(dmat = d, model = fit)
+
+symbols(x = df$x, y = df$y, circles = wt, inches = 0.5)
 
 }
