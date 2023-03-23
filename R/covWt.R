@@ -18,13 +18,61 @@
 #' @return A vector of weights.
 #' 
 #' @examples
+#' x <- rgamma(100, 1)
+#' y <- rgamma(100, 1)
 #' 
+#' plot(x, y)
+#' 
+#' df <- data.frame(x, y)
+#' 
+#' #get a distance matrix of the observations
+#' d <- dist(df)
+#' 
+#' #we can use parameters from some fitted residual exponential variogram
+#' m = "Sph"
+#' r = 1
+#' nug = 0.1
+#' psil = 0.3
+#' 
+#' wt <- covWt(dmat = d, m = m, a = r, nug = nug, psil = psil)
+#' 
+#' symbols(x, y, circles = wt, inches = 0.5, xlim = c(0,6), ylim = c(0,6))
+#' 
+#' #or we could take a residual variogram model from gstat
+#' library(gstat)
+#' mod <- gstat::vgm(psil, "Sph", r, nug)
+#' 
+#' wt <- covWt(dmat = d, model = mod)
+#' 
+#' symbols(x, y, circles = wt, inches = 0.5, xlim = c(0,6), ylim = c(0,6))
+#' 
+#' #we can also use gstat to fit a model
+#' library(sp)
+#' data(meuse)
+#' df <- meuse
+#' coordinates(meuse) = ~x+y
+#' 
+#' plot(meuse)
+#' 
+#' #obtain the residual variogram from universal kriging
+#' g <-variogram(log(zinc)~x+y, meuse)
+#' fit <- fit.variogram(g, vgm("Sph"))
+#' 
+#' plot(g, fit)
+#' 
+#' #calculate the distance matrix
+#' d = dist(df[ ,c("x", "y")])
+#' 
+#' #calculate covariance weights using the fitted residual variogram model
+#' wt <- covWt(dmat = d, model = fit)
+#' 
+#' symbols(x = df$x, y = df$y, circles = wt, inches = 0.5)
 #' 
 #' @export
 
-covWt <- function(dmat, model, m, a, nug, psil){
+covWt <- function(dmat, model = NULL, m, a, nug, psil){
   if(class(dmat) == "dist") dmat <- as.matrix(dmat)
-  if(exists("model")){
+  if(!is.null(model)){
     if(class(model)[1] != "variogramModel") stop("`model` must be of class 'variogramModel'")
     
     m = as.character(model$model[2])
