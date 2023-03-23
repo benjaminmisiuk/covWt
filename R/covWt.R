@@ -22,7 +22,7 @@
 #' 
 #' @export
 
-covWt <- function(x, model, m, a, nug, psil, dmat){
+covWt <- function(dmat, model, m, a, nug, psil){
   if(class(dmat) == "dist") dmat <- as.matrix(dmat)
   if(exists("model")){
     if(class(model)[1] != "variogramModel") stop("`model` must be of class 'variogramModel'")
