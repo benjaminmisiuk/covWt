@@ -94,7 +94,7 @@ symbols(x = fulmar$x, y = fulmar$y, circles = wt-min(wt)+0.1, inches = 0.25)
 ```
 ![](images/res_wt.jpeg)
 
-We can see that the clustered data points are assigned smaller weight. Let's recalculate the **weighted** validation statistics and compare to the original un-weighted ones.
+We can see that the clustered data points are assigned smaller weight. Let's recalculate the **weighted** validation statistics and compare to the original **un-weighted** ones.
 ```
 rmse(p, fulmar$fulmar)
 rmse_wt(p, fulmar$fulmar, wt)
@@ -111,6 +111,8 @@ ve_wt(p, fulmar$fulmar, wt)
 #[1] 0.3780087
 #[1] 0.3666981
 ```
+The weighted statistics indicate slightly lower performance than the un-weighted estimates.
+
 ### Covariance-weighted bagging
 We also know that clustered data can cause biased model training. We can try to use the covariance weights to decrease the influence of the clustered data on the model fit. Specifying the `weight` argument of `randomForest()` allows for decreasing the probability that the clustered samples are drawn during bootstrapping. Correcting for bias in this way is known as the _inverse probability bootstrap_ ([Nahorniak _et al_. 2015](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0131765)).
 ```
