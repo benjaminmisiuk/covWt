@@ -44,7 +44,7 @@ symbols(x = fulmar$x, y = fulmar$y, circles = fulmar$fulmar, inches = 0.25)
 #7 1998 556583.0 5738519     1 2.701462      0
 #8 1998 553423.7 5735916     3 1.807041      0
 ```
-![](images/obs.jpg)
+![](images/obs.jpeg)
 
 Some of the data are quite clustered. Let's try training a Random Forest model to predict the fulmar density given the covariates in the dataset.
 ```
@@ -79,7 +79,7 @@ v <- variogram(object = res~1, locations = ~x+y, data = fulmar, cutoff = 400000)
 fit <- fit.variogram(v, model = vgm("Exp"))
 plot(v, fit)
 ```
-![](images/res_exp.jpg)
+![](images/res_exp.jpeg)
 
 There is a decent exponential fit, showing substantial autocorrelation of model errors in space. We can use the spatial autocorrelation decay and the sample clustering to down-weight the clustered observations for the validation. We just need the variogram model and the distance matrix between observations.
 ```
@@ -92,7 +92,7 @@ wt <- covWt(dmat = d, model = fit)
 #plot the weights spatially
 symbols(x = fulmar$x, y = fulmar$y, circles = wt-min(wt)+0.1, inches = 0.25)
 ```
-![](images/res_wt.jpg)
+![](images/res_wt.jpeg)
 
 We can see that the clustered data points are assigned smaller weight. Let's recalculate the **weighted** validation statistics and compare to the original un-weighted ones.
 ```
@@ -126,7 +126,7 @@ v <- variogram(object = res_cov~1, locations = ~x+y, data = fulmar, cutoff = 300
 fit <- fit.variogram(v, model = vgm("Sph"))
 plot(v, fit)
 ```
-![](images/res_sph.jpg)
+![](images/res_sph.jpeg)
 
 ```
 #re-calculate covariance weights using the new model residuals
