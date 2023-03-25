@@ -121,18 +121,18 @@ The weighted statistics indicate slightly lower performance than the un-weighted
 We also know that clustered data can bias model training. We can try to use the covariance weights to decrease the influence of the clustered data on the model fit. Specifying the `weight` argument of `randomForest()` allows for decreasing the probability that the clustered samples are drawn during bootstrapping. Correcting for bias in this way is known as the _inverse probability bootstrap_ ([Nahorniak _et al_. 2015](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0131765)).
 ```
 #use covariance weights for bagging with random forest
-rf_cov <- randomForest(fulmar ~ ., data = fulmar, weights = wt)
+rf <- randomForest(fulmar ~ ., data = fulmar, weights = wt)
 
 #get the new out-of-bag predictions
-p_cov <- predict(rf_cov)
-res_cov <- data.frame(
+p <- predict(rf)
+res <- data.frame(
   x = fulmar$x,
   y = fulmar$y,
-  res_cov = fulmar$fulmar - p_cov
+  res = fulmar$fulmar - p
 )
 
 #fit the variogram model
-v <- variogram(object = res_cov~1, locations = ~x+y, data = fulmar, cutoff = 300000)
+v <- variogram(object = res~1, locations = ~x+y, data = res, cutoff = 400000)
 fit <- fit.variogram(v, model = vgm("Exp"))
 plot(v, fit)
 ```
@@ -143,14 +143,14 @@ plot(v, fit)
 wt <- covWt(dmat = d, model = fit)
 
 #calculated unweighted and covariance-weighted statistics
-rmse_wt(p_cov, fulmar$fulmar, wt)
-ve_wt(p_cov, fulmar$fulmar, wt)
+rmse_wt(p, fulmar$fulmar, wt)
+ve_wt(p, fulmar$fulmar, wt)
 ```
 ```
 #[1] 2.515283
 #[1] 0.3698575
 ```
-In this case, we don't see any improvement using the bagging weights.
+In this case, we don't see much change using the bagging weights.
 
 # References
 Nahorniak, M., Larsen, D.P., Volk, C., Jordan, C.E., 2015. Using Inverse Probability Bootstrap Sampling to Eliminate Sample Induced Bias in Model Based Analysis of Unequal Probability Samples. PLOS ONE 10, e0131765. https://doi.org/10.1371/journal.pone.0131765
