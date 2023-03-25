@@ -21,29 +21,3 @@ The functions can then be loaded into your R environment.
 library(covWt)
 help(package = 'covWt')
 ```
-
-Below is an example for calculating the weighted variance explained:
-
-```
-#generate random data
-a <- runif(100, 0, 3)
-
-#simulate a linear dependent covariate with noise
-b <- a + rnorm(100)
-plot(a, b)
-```
-
-![](images/a_b_eg.png)
-
-```
-#check unweighted VE
-ve(a, b)
-#[1] 0.5159723
-
-#generate random vector of weights
-wt = runif(100)
-
-#return weighted VE
-ve_wt(a, b, wt)
-#[1] 0.5071803
-```
