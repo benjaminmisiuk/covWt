@@ -150,7 +150,7 @@ ve_wt(p_cov, fulmar$fulmar, wt)
 #[1] 2.515283
 #[1] 0.3698575
 ```
-In this case, we don't see any major improvement using the bagging weights.
+In this case, we don't see any improvement using the bagging weights.
 
 # References
 Nahorniak, M., Larsen, D.P., Volk, C., Jordan, C.E., 2015. Using Inverse Probability Bootstrap Sampling to Eliminate Sample Induced Bias in Model Based Analysis of Unequal Probability Samples. PLOS ONE 10, e0131765. https://doi.org/10.1371/journal.pone.0131765
