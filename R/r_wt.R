@@ -10,6 +10,7 @@
 #' @param y_h Vector of predicted values.
 #' @param y Vector of true values.
 #' @param wt Vector of sample weights.
+#' @param na.rm Logical whether to remove NA values.
 #' 
 #' @examples
 #' #generate random data
@@ -33,7 +34,13 @@
 #' @export
 #' 
 
-r_wt <- function(y_h, y, wt){
+r_wt <- function(y_h, y, wt, na.rm = FALSE){
+  if(na.rm){
+    na <- is.na(y_h)|is.na(y)
+    y_h <- y_h[!na]
+    y <- y[!na]
+  }
+  
   #normalize weights
   wt <- wt / sum(wt)
   
