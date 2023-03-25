@@ -4,7 +4,7 @@
 \alias{r_wt}
 \title{Weighted Pearson's correlation}
 \usage{
-r_wt(y_h, y, wt)
+r_wt(y_h, y, wt, na.rm = FALSE)
 }
 \arguments{
 \item{y_h}{Vector of predicted values.}
@@ -12,6 +12,8 @@ r_wt(y_h, y, wt)
 \item{y}{Vector of true values.}
 
 \item{wt}{Vector of sample weights.}
+
+\item{na.rm}{Logical whether to remove NA values.}
 }
 \description{
 Calculate a weighted version of Pearson's correlation coefficient.

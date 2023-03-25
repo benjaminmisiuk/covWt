@@ -5,9 +5,9 @@
 \alias{rmse}
 \title{Weighted Root Mean Squared Error}
 \usage{
-rmse_wt(y_h, y, wt)
+rmse_wt(y_h, y, wt, na.rm = FALSE)
 
-rmse(y_h, y)
+rmse(y_h, y, na.rm = FALSE)
 }
 \arguments{
 \item{y_h}{Vector of predicted values.}
@@ -15,6 +15,8 @@ rmse(y_h, y)
 \item{y}{Vector of true values.}
 
 \item{wt}{Vector of sample weights.}
+
+\item{na.rm}{Logical whether to remove NA values.}
 }
 \description{
 Calculate weighted or unweighted root mean squared error.

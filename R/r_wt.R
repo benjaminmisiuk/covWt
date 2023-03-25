@@ -39,6 +39,7 @@ r_wt <- function(y_h, y, wt, na.rm = FALSE){
     na <- is.na(y_h)|is.na(y)
     y_h <- y_h[!na]
     y <- y[!na]
+    wt <- wt[!na]
   }
   
   #normalize weights

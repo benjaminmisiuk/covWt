@@ -5,9 +5,9 @@
 \alias{ve}
 \title{Weighted Variance Explained}
 \usage{
-ve_wt(y_h, y, wt)
+ve_wt(y_h, y, wt, na.rm = FALSE)
 
-ve(y_h, y)
+ve(y_h, y, na.rm = FALSE)
 }
 \arguments{
 \item{y_h}{Vector of predicted values.}
@@ -15,6 +15,8 @@ ve(y_h, y)
 \item{y}{Vector of true values.}
 
 \item{wt}{Vector of sample weights.}
+
+\item{na.rm}{Logical whether to remove NA values.}
 }
 \description{
 Calculate weighted or unweighted variance explained.
