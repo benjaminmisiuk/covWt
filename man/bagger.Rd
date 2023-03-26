@@ -36,14 +36,14 @@ bagger(
 \item{n}{Integer. Number of bagging iterations.}
 }
 \value{
-List containing the models in the ensemble \verb{$models}, and the out-of-bag predictions \verb{$oob_preds}.
+List containing the models in the ensemble \verb{$models}, the out-of-bag predictions \verb{$oob_preds}, and the number of times each sample is drawn \verb{$n_draws}.
 }
 \description{
 A generic function for creating a bagging model ensemble. Supports weighted bagging and feature bagging.
 }
 \details{
-#Any model that supports the \code{formula} class may be used, but it might be necessary to specify specific parameters via the \code{model_params} argument.
-Models from external libraries must be loaded into the global environment (e.g., using \code{library(earth)}). Consult individual model documentation
+Any model that supports the \code{formula} class may be used, but it might be necessary to specify additional parameters via the \code{model_params} argument.
+Models from external libraries must be loaded into the global environment (e.g., using \code{library()}). Consult individual model documentation
 for guidance on what goes in \code{model_params}. Some unique \code{formula} formats, like in \link{gam}, are not currently supported. You can call and loop \code{bag} directly
 to make a custom bagging model for these.
 }
@@ -54,7 +54,7 @@ data <- data.frame(iris)
 y = 'Sepal.Length'
 x <- c('Species', 'Sepal.Width', 'Petal.Length', 'Petal.Width')
 
-#create a bagging model using multivariate regression splines
+#create a bagging model using multivariate adaptive regression splines
 library(earth)
 
 B <- bagger(y, x, data = data, model = "earth")

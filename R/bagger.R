@@ -3,8 +3,8 @@
 #' A generic function for creating a bagging model ensemble. Supports weighted bagging and feature bagging.
 #' 
 #' @details 
-#' #Any model that supports the `formula` class may be used, but it might be necessary to specify specific parameters via the `model_params` argument.
-#' Models from external libraries must be loaded into the global environment (e.g., using `library(earth)`). Consult individual model documentation
+#' Any model that supports the `formula` class may be used, but it might be necessary to specify additional parameters via the `model_params` argument.
+#' Models from external libraries must be loaded into the global environment (e.g., using `library()`). Consult individual model documentation
 #' for guidance on what goes in `model_params`. Some unique `formula` formats, like in [gam], are not currently supported. You can call and loop `bag` directly 
 #' to make a custom bagging model for these.
 #' 
@@ -18,7 +18,7 @@
 #' @param model_params List of parameters to pass to  `model`. See details and examples.
 #' @param n Integer. Number of bagging iterations.
 #' 
-#' @return List containing the models in the ensemble `$models`, and the out-of-bag predictions `$oob_preds`.
+#' @return List containing the models in the ensemble `$models`, the out-of-bag predictions `$oob_preds`, and the number of times each sample is drawn `$n_draws`.
 #' 
 #' @examples
 #' data <- data.frame(iris)
@@ -27,7 +27,7 @@
 #' y = 'Sepal.Length'
 #' x <- c('Species', 'Sepal.Width', 'Petal.Length', 'Petal.Width')
 #' 
-#' #create a bagging model using multivariate regression splines
+#' #create a bagging model using multivariate adaptive regression splines
 #' library(earth)
 #' 
 #' B <- bagger(y, x, data = data, model = "earth")
