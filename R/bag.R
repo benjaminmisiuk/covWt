@@ -1,9 +1,9 @@
-#' Bagger
+#' Bag
 #' 
-#' A generic function for creating a bagging model ensemble.
+#' A generic function for drawing one bootstrap sample for machine learning bagging models.
 #' 
 #' @details 
-#' 
+#' Draws a bootstrap sample (with replacement) from a data frame, allowing for optional specification of probability weights and feature bagging (random selection of predictors). 
 #' 
 #' @param y Character naming the response variable.
 #' @param x Character vector naming the predictor variables.
@@ -17,7 +17,7 @@
 #' 
 #' @examples
 #' data(iris)
-
+#' 
 #' #define the vector of predictors to include
 #' x <- c('Sepal.Length', 'Sepal.Width', 'Petal.Length', 'Petal.Width')
 #' 
