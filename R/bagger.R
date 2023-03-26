@@ -89,9 +89,10 @@ bagger <- function(y, x, data, p = rep(1, nrow(data)), mtry = length(x), mtry_re
     mod_bag[[length(mod_bag) + 1]] <- model_i
   }
   
-  #take the average of the out-of-bag predictions
+  #take the average of the out-of-bag predictions and count the draws for each observation
   oob_preds <- do.call(cbind, oob_preds)
+  n_draws <- apply(oob_preds, 1, function(x) sum(is.na(x)))
   oob_preds <- apply(oob_preds, 1, mean, na.rm=TRUE)
   
-  return(list(models = mod_bag, oob_preds = oob_preds))
+  return(list(models = mod_bag, oob_preds = oob_preds, n_draws = n_draws))
 }
