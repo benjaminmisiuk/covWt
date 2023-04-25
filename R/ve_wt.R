@@ -3,11 +3,11 @@
 #' Calculate weighted or unweighted variance explained.
 #' 
 #' @details 
-#' Unweighted variance explained is calculated by dividing the residual sum of squares between `y_h` and `y` from the total sum of squares of `y`, and subtracting from 1.
+#' Unweighted variance explained is calculated by dividing the residual sum of squares between `y` and `y_h` from the total sum of squares of `y`, and subtracting from 1.
 #' Weighted variance is obtained by weighting the residual and total sum of squares by the vector `wt` prior to dividing.
 #' 
-#' @param y_h Vector of predicted values.
 #' @param y Vector of true values.
+#' @param y_h Vector of predicted values.
 #' @param wt Vector of sample weights.
 #' 
 #' @examples
@@ -30,7 +30,7 @@
 #' 
 
 #calculate weighted VE
-ve_wt <- function(y_h, y, wt){
+ve_wt <- function(y, y_h, wt){
   SSres = sum((y - y_h)^2 * wt) / sum(wt)
   SStot = sum((y - mean(y))^2 * wt) / sum(wt)
   1 - ((SSres)/(SStot))
@@ -41,7 +41,7 @@ ve_wt <- function(y_h, y, wt){
 #' 
 
 #calculate unweighted VE
-ve <- function(y_h, y){
+ve <- function(y, y_h){
   SSres = sum((y - y_h)^2)
   SStot = sum((y - mean(y))^2)
   1 - (SSres/SStot)

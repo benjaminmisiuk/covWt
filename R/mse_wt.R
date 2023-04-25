@@ -3,11 +3,11 @@
 #' Calculate weighted or unweighted mean squared error.
 #' 
 #' @details 
-#' Weighted MSE is calculated by multiplying the sum of squared errors betweem `y_h` and `y` by weights provided in the vector `wt`,
+#' Weighted MSE is calculated by multiplying the sum of squared errors between `y` and `y_h` by weights provided in the vector `wt`,
 #' and dividing by the sum of weights, rather than N. 
 #' 
-#' @param y_h Vector of predicted values.
 #' @param y Vector of true values.
+#' @param y_h Vector of predicted values.
 #' @param wt Vector of sample weights.
 #' 
 #' @examples
@@ -30,7 +30,7 @@
 #' 
 
 #calculate weighted MSE
-mse_wt <- function(y_h, y, wt){
+mse_wt <- function(y, y_h, wt){
   SS = sum((y - y_h)^2 * wt)
   SS/sum(wt)
 }
@@ -40,7 +40,7 @@ mse_wt <- function(y_h, y, wt){
 #' 
 
 #calculate unweighted MSE
-mse <- function(y_h, y){
+mse <- function(y, y_h){
   n = length(y)
   SS = sum((y - y_h)^2)
   SS/n

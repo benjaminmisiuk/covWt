@@ -5,8 +5,8 @@
 #' @details 
 #' Weighted RMSE is calculated by taking the root of the weighted MSE, as calualated using `mse_wt`.
 #' 
-#' @param y_h Vector of predicted values.
 #' @param y Vector of true values.
+#' @param y_h Vector of predicted values.
 #' @param wt Vector of sample weights.
 #' 
 #' @examples
@@ -29,8 +29,8 @@
 #' 
 
 #calculate weighted RMSE
-rmse_wt <- function(y_h, y, wt){
-  sqrt(mse_wt(y_h, y, wt))
+rmse_wt <- function(y, y_h, wt){
+  sqrt(mse_wt(y, y_h, wt))
 }
 
 #' @rdname rmse_wt
@@ -38,7 +38,7 @@ rmse_wt <- function(y_h, y, wt){
 #' 
 
 #calculate unweighted RMSE
-rmse <- function(y_h, y){
-  sqrt(mse(y_h, y))
+rmse <- function(y, y_h){
+  sqrt(mse(y, y_h))
 }
 
