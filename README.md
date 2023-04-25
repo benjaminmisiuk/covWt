@@ -56,10 +56,10 @@ p <- predict(rf)
 We can validate the model by comparing the "out-of-bag" predictions to the observed values:
 ```
 #the root mean squared error
-rmse(p, fulmar$fulmar)
+rmse(fulmar$fulmar, p)
 
 #the variance explained
-ve(p, fulmar$fulmar)
+ve(fulmar$fulmar, p)
 ```
 ```
 #[1] 2.359215
@@ -100,16 +100,16 @@ symbols(x = fulmar$x, y = fulmar$y, circles = wt-min(wt)+0.1, inches = 0.25)
 
 We can see that the clustered data points are assigned smaller weight. Let's recalculate the **weighted** validation statistics and compare to the original **un-weighted** ones.
 ```
-rmse(p, fulmar$fulmar)
-rmse_wt(p, fulmar$fulmar, wt)
+rmse(fulmar$fulmar, p)
+rmse_wt(fulmar$fulmar, p, wt)
 ```
 ```
 #[1] 2.359215
 #[1] 2.507958
 ```
 ```
-ve(p, fulmar$fulmar)
-ve_wt(p, fulmar$fulmar, wt)
+ve(fulmar$fulmar, p)
+ve_wt(fulmar$fulmar, p, wt)
 ```
 ```
 #[1] 0.3834001
@@ -142,9 +142,9 @@ plot(v, fit)
 #re-calculate covariance weights using the new model residuals
 wt <- covWt(dmat = d, model = fit)
 
-#calculated unweighted and covariance-weighted statistics
-rmse_wt(p, fulmar$fulmar, wt)
-ve_wt(p, fulmar$fulmar, wt)
+#calculated covariance-weighted statistics
+rmse_wt(fulmar$fulmar, p, wt)
+ve_wt(fulmar$fulmar, p, wt)
 ```
 ```
 #[1] 2.515283
