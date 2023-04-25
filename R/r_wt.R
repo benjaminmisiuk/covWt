@@ -19,16 +19,16 @@
 #' b <- a + rnorm(100)
 #' 
 #' #check unweighted correlation
-#' cor(a, b)
+#' cor(b, a)
 #' 
 #' #generate random vector of weights
 #' wt = runif(100)
 #' 
 #' #return weighted correlation
-#' r_wt(a, b, wt)
+#' r_wt(b, a, wt)
 #' 
 #' #compare to the cov.wt function
-#' cov.wt(x = data.frame(a, b), wt = wt, cor = TRUE)$cor[2]
+#' cov.wt(x = data.frame(b, a), wt = wt, cor = TRUE)$cor[2]
 #' 
 #' @export
 #' 

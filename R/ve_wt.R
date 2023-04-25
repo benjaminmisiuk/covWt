@@ -18,13 +18,13 @@
 #' b <- a + rnorm(100)
 #' 
 #' #check unweighted VE
-#' ve(a, b)
+#' ve(b, a)
 #' 
 #' #generate random vector of weights
 #' wt = runif(100)
 #' 
 #' #return weighted VE
-#' ve_wt(a, b, wt)
+#' ve_wt(b, a, wt)
 #' 
 #' @export
 #' 

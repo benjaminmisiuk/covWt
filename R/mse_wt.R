@@ -18,13 +18,13 @@
 #' b <- a + rnorm(100)
 #' 
 #' #check unweighted MSE
-#' mse(a, b)
+#' mse(b, a)
 #' 
 #' #generate random vector of weights
 #' wt = runif(100)
 #' 
 #' #return weighted MSE
-#' mse_wt(a, b, wt)
+#' mse_wt(b, a, wt)
 #' 
 #' @export
 #' 
