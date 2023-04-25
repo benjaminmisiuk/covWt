@@ -3,13 +3,12 @@
 #' Calculate weighted or unweighted variance explained.
 #' 
 #' @details 
-#' Unweighted variance explained is calculated by dividing the residual sum of squares between `y_h` and `y` from the total sum of squares of `y`, and subtracting from 1.
+#' Unweighted variance explained is calculated by dividing the residual sum of squares between `y` and `y_h` from the total sum of squares of `y`, and subtracting from 1.
 #' Weighted variance is obtained by weighting the residual and total sum of squares by the vector `wt` prior to dividing.
 #' 
-#' @param y_h Vector of predicted values.
 #' @param y Vector of true values.
+#' @param y_h Vector of predicted values.
 #' @param wt Vector of sample weights.
-#' @param na.rm Logical whether to remove NA values.
 #' 
 #' @examples
 #' #generate random data
@@ -31,14 +30,7 @@
 #' 
 
 #calculate weighted VE
-ve_wt <- function(y_h, y, wt, na.rm = FALSE){
-  if(na.rm){
-    na <- is.na(y_h)|is.na(y)
-    y_h <- y_h[!na]
-    y <- y[!na]
-    wt <- wt[!na]
-  }
-  
+ve_wt <- function(y, y_h, wt){
   SSres = sum((y - y_h)^2 * wt) / sum(wt)
   SStot = sum((y - mean(y))^2 * wt) / sum(wt)
   1 - ((SSres)/(SStot))
@@ -49,13 +41,7 @@ ve_wt <- function(y_h, y, wt, na.rm = FALSE){
 #' 
 
 #calculate unweighted VE
-ve <- function(y_h, y, na.rm = FALSE){
-  if(na.rm){
-    na <- is.na(y_h)|is.na(y)
-    y_h <- y_h[!na]
-    y <- y[!na]
-  }
-  
+ve <- function(y, y_h){
   SSres = sum((y - y_h)^2)
   SStot = sum((y - mean(y))^2)
   1 - (SSres/SStot)

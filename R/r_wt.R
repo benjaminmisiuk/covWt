@@ -7,10 +7,9 @@
 #' These are used to calculate the weighted covariance between predictions `y_h` and true values `y` using their weighted means (also calculated using the normalized weights).
 #' The correlation is then calculated using the weighted covariance and the weighted variances for `y_h` and `y`. 
 #' 
-#' @param y_h Vector of predicted values.
 #' @param y Vector of true values.
+#' @param y_h Vector of predicted values.
 #' @param wt Vector of sample weights.
-#' @param na.rm Logical whether to remove NA values.
 #' 
 #' @examples
 #' #generate random data
@@ -34,14 +33,7 @@
 #' @export
 #' 
 
-r_wt <- function(y_h, y, wt, na.rm = FALSE){
-  if(na.rm){
-    na <- is.na(y_h)|is.na(y)
-    y_h <- y_h[!na]
-    y <- y[!na]
-    wt <- wt[!na]
-  }
-  
+r_wt <- function(y, y_h, wt){
   #normalize weights
   wt <- wt / sum(wt)
   

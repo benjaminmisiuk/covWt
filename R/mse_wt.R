@@ -3,13 +3,12 @@
 #' Calculate weighted or unweighted mean squared error.
 #' 
 #' @details 
-#' Weighted MSE is calculated by multiplying the sum of squared errors betweem `y_h` and `y` by weights provided in the vector `wt`,
+#' Weighted MSE is calculated by multiplying the sum of squared errors between `y` and `y_h` by weights provided in the vector `wt`,
 #' and dividing by the sum of weights, rather than N. 
 #' 
-#' @param y_h Vector of predicted values.
 #' @param y Vector of true values.
+#' @param y_h Vector of predicted values.
 #' @param wt Vector of sample weights.
-#' @param na.rm Logical whether to remove NA values.
 #' 
 #' @examples
 #' #generate random data
@@ -31,14 +30,7 @@
 #' 
 
 #calculate weighted MSE
-mse_wt <- function(y_h, y, wt, na.rm = FALSE){
-  if(na.rm){
-    na <- is.na(y_h)|is.na(y)
-    y_h <- y_h[!na]
-    y <- y[!na]
-    wt <- wt[!na]
-  }
-  
+mse_wt <- function(y, y_h, wt){
   SS = sum((y - y_h)^2 * wt)
   SS/sum(wt)
 }
@@ -48,13 +40,7 @@ mse_wt <- function(y_h, y, wt, na.rm = FALSE){
 #' 
 
 #calculate unweighted MSE
-mse <- function(y_h, y, na.rm = FALSE){
-  if(na.rm){
-    na <- is.na(y_h)|is.na(y)
-    y_h <- y_h[!na]
-    y <- y[!na]
-  }
-  
+mse <- function(y, y_h){
   n = length(y)
   SS = sum((y - y_h)^2)
   SS/n
