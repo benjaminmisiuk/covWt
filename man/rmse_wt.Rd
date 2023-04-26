@@ -5,18 +5,16 @@
 \alias{rmse}
 \title{Weighted Root Mean Squared Error}
 \usage{
-rmse_wt(y_h, y, wt, na.rm = FALSE)
+rmse_wt(y, y_h, wt)
 
-rmse(y_h, y, na.rm = FALSE)
+rmse(y, y_h)
 }
 \arguments{
-\item{y_h}{Vector of predicted values.}
-
 \item{y}{Vector of true values.}
 
-\item{wt}{Vector of sample weights.}
+\item{y_h}{Vector of predicted values.}
 
-\item{na.rm}{Logical whether to remove NA values.}
+\item{wt}{Vector of sample weights.}
 }
 \description{
 Calculate weighted or unweighted root mean squared error.
@@ -32,12 +30,12 @@ a <- runif(100, 0, 3)
 b <- a + rnorm(100)
 
 #check unweighted RMSE
-rmse(a, b)
+rmse(b, a)
 
 #generate random vector of weights
 wt = runif(100)
 
 #return weighted MSE
-rmse_wt(a, b, wt)
+rmse_wt(b, a, wt)
 
 }
