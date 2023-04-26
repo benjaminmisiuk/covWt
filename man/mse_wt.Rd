@@ -5,9 +5,9 @@
 \alias{mse}
 \title{Weighted Mean Squared Error}
 \usage{
-mse_wt(y, y_h, wt)
+mse_wt(y, y_h, wt, na.rm = FALSE)
 
-mse(y, y_h)
+mse(y, y_h, na.rm = FALSE)
 }
 \arguments{
 \item{y}{Vector of true values.}
@@ -15,6 +15,8 @@ mse(y, y_h)
 \item{y_h}{Vector of predicted values.}
 
 \item{wt}{Vector of sample weights.}
+
+\item{na.rm}{Logical whether to remove NA values.}
 }
 \description{
 Calculate weighted or unweighted mean squared error.

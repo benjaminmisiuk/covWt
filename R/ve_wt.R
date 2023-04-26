@@ -9,6 +9,7 @@
 #' @param y Vector of true values.
 #' @param y_h Vector of predicted values.
 #' @param wt Vector of sample weights.
+#' @param na.rm Logical whether to remove NA values.
 #' 
 #' @examples
 #' #generate random data
@@ -30,7 +31,14 @@
 #' 
 
 #calculate weighted VE
-ve_wt <- function(y, y_h, wt){
+ve_wt <- function(y, y_h, wt, na.rm = FALSE){
+  if(na.rm){
+    na <- is.na(y_h)|is.na(y)
+    y_h <- y_h[!na]
+    y <- y[!na]
+    wt <- wt[!na]
+  }
+  
   SSres = sum((y - y_h)^2 * wt) / sum(wt)
   SStot = sum((y - mean(y))^2 * wt) / sum(wt)
   1 - ((SSres)/(SStot))
@@ -41,7 +49,13 @@ ve_wt <- function(y, y_h, wt){
 #' 
 
 #calculate unweighted VE
-ve <- function(y, y_h){
+ve <- function(y, y_h, na.rm = FALSE){
+  if(na.rm){
+    na <- is.na(y_h)|is.na(y)
+    y_h <- y_h[!na]
+    y <- y[!na]
+  }
+  
   SSres = sum((y - y_h)^2)
   SStot = sum((y - mean(y))^2)
   1 - (SSres/SStot)
