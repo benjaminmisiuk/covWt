@@ -60,7 +60,7 @@ library(earth)
 B <- bagger(y, x, data = data, model = "earth")
 
 #check the out-of-bag variance explained
-ve(B$oob_preds, data$Sepal.Length)
+ve(data$Sepal.Length, B$oob_preds)
 
 #observe how many times each observation was drawn
 B$n_draws / length(B$models)
