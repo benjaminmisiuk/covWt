@@ -10,7 +10,10 @@ bagger(
   data,
   p = rep(1, nrow(data)),
   mtry = length(x),
-  mtry_replace = FALSE
+  mtry_replace = FALSE,
+  model,
+  model_params = NULL,
+  n = 500
 )
 }
 \arguments{
@@ -24,37 +27,60 @@ bagger(
 
 \item{mtry}{Integer indicating how many predictors to sample from \code{x}. Default is all.}
 
-\item{mtry_replace}{Logical whether to sample the predictors with replacement, is \code{mtry} is less than the the number of predictors indicated in \code{x}.}
+\item{mtry_replace}{Logical whether to sample the predictors with replacement.}
+
+\item{model}{Character. Name of the model to bag. Must support class \code{formula}, such as "glm", "earth", "rpart", "loess", "gbm".}
+
+\item{model_params}{List of parameters to pass to  \code{model}. See details and examples.}
+
+\item{n}{Integer. Number of bagging iterations.}
 }
 \value{
-A list containing the bootstrapped sample data \verb{$data}, a vector of indices indicating which samples were drawn during bootstrapping \verb{$oob},
-and a vector of which predictor variables were selected \verb{$x}.
+List containing the models in the ensemble \verb{$models}, the out-of-bag predictions \verb{$oob_preds}, and the number of times each sample is drawn \verb{$n_draws}.
 }
 \description{
-A generic function for drawing bagging samples for machine learning models.
+A generic function for creating a bagging model ensemble. Supports weighted bagging and feature bagging.
 }
 \details{
-Draws bootstrap samples (with replacement) from a data frame, allowing for optional specification of probability weights and feature bagging (random selection of predictors).
+Any model that supports the \code{formula} class may be used, but it might be necessary to specify additional parameters via the \code{model_params} argument.
+Models from external libraries must be loaded into the global environment (e.g., using \code{library()}). Consult individual model documentation
+for guidance on what goes in \code{model_params}. Some unique \code{formula} formats, like in \link{gam}, are not currently supported. You can call and loop \code{bag} directly
+to make a custom bagging model for these.
 }
 \examples{
-data(iris)
-#define the vector of predictors to include
-x <- c('Sepal.Length', 'Sepal.Width', 'Petal.Length', 'Petal.Width')
+data <- data.frame(iris)
 
-b <- bagger(y = 'Species', x, data = iris)
+#define the response and a vector of predictors to include
+y = 'Sepal.Length'
+x <- c('Species', 'Sepal.Width', 'Petal.Length', 'Petal.Width')
 
-#compare the number of cases to the original data
-table(iris$Species)
-table(b$data$Species)
+#create a bagging model using multivariate adaptive regression splines
+library(earth)
 
-#down-weight the probability of drawing "setosa" observations
-iris$prob <- 1
-iris$prob[iris$Species == 'setosa'] <- 0.5
+B <- bagger(y, x, data = data, model = "earth")
 
-#re-draw using the probabilities
-b <- bagger(y = 'Species', x, data = iris, p = iris$prob)
+#check the out-of-bag variance explained
+ve(B$oob_preds, data$Sepal.Length)
 
-table(iris$Species)
-table(b$data$Species)
+#observe how many times each observation was drawn
+B$n_draws / length(B$models)
+
+#bag again using probability weights
+#we will calculate them using the oob residuals just as an example
+r <- abs(data$Sepal.Length - B$oob_preds)
+wt <- (r - min(r)) / (max(r) - min(r))
+
+B <- bagger(y, x, data = data, model = "earth", p = wt)
+
+#observe the bootstrap draws now
+B$n_draws / length(B$models)
+
+#you can pass specific model parameters to the bagger
+B <- bagger(y, x, data = data, model = "glm", model_params = list(family = gaussian(link = 'log')))
+
+#predict with the whole ensemble
+p <- lapply(B$models, function(x) predict(x, data, type = 'response'))
+p <- do.call(cbind, p)
+p <- apply(p, 1, mean, na.rm = TRUE)
 
 }

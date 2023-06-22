@@ -4,14 +4,16 @@
 \alias{r_wt}
 \title{Weighted Pearson's correlation}
 \usage{
-r_wt(y_h, y, wt)
+r_wt(y, y_h, wt, na.rm = FALSE)
 }
 \arguments{
-\item{y_h}{Vector of predicted values.}
-
 \item{y}{Vector of true values.}
 
+\item{y_h}{Vector of predicted values.}
+
 \item{wt}{Vector of sample weights.}
+
+\item{na.rm}{Logical whether to remove NA values.}
 }
 \description{
 Calculate a weighted version of Pearson's correlation coefficient.
@@ -29,15 +31,15 @@ a <- runif(100, 0, 3)
 b <- a + rnorm(100)
 
 #check unweighted correlation
-cor(a, b)
+cor(b, a)
 
 #generate random vector of weights
 wt = runif(100)
 
 #return weighted correlation
-r_wt(a, b, wt)
+r_wt(b, a, wt)
 
 #compare to the cov.wt function
-cov.wt(x = data.frame(a, b), wt = wt, cor = TRUE)$cor[2]
+cov.wt(x = data.frame(b, a), wt = wt, cor = TRUE)$cor[2]
 
 }

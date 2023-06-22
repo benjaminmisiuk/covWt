@@ -5,22 +5,24 @@
 \alias{ve}
 \title{Weighted Variance Explained}
 \usage{
-ve_wt(y_h, y, wt)
+ve_wt(y, y_h, wt, na.rm = FALSE)
 
-ve(y_h, y)
+ve(y, y_h, na.rm = FALSE)
 }
 \arguments{
-\item{y_h}{Vector of predicted values.}
-
 \item{y}{Vector of true values.}
 
+\item{y_h}{Vector of predicted values.}
+
 \item{wt}{Vector of sample weights.}
+
+\item{na.rm}{Logical whether to remove NA values.}
 }
 \description{
 Calculate weighted or unweighted variance explained.
 }
 \details{
-Unweighted variance explained is calculated by dividing the residual sum of squares between \code{y_h} and \code{y} from the total sum of squares of \code{y}, and subtracting from 1.
+Unweighted variance explained is calculated by dividing the residual sum of squares between \code{y} and \code{y_h} from the total sum of squares of \code{y}, and subtracting from 1.
 Weighted variance is obtained by weighting the residual and total sum of squares by the vector \code{wt} prior to dividing.
 }
 \examples{
@@ -31,12 +33,12 @@ a <- runif(100, 0, 3)
 b <- a + rnorm(100)
 
 #check unweighted VE
-ve(a, b)
+ve(b, a)
 
 #generate random vector of weights
 wt = runif(100)
 
 #return weighted VE
-ve_wt(a, b, wt)
+ve_wt(b, a, wt)
 
 }

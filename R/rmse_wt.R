@@ -8,6 +8,7 @@
 #' @param y Vector of true values.
 #' @param y_h Vector of predicted values.
 #' @param wt Vector of sample weights.
+#' @param na.rm Logical whether to remove NA values.
 #' 
 #' @examples
 #' #generate random data
@@ -17,19 +18,26 @@
 #' b <- a + rnorm(100)
 #' 
 #' #check unweighted RMSE
-#' rmse(a, b)
+#' rmse(b, a)
 #' 
 #' #generate random vector of weights
 #' wt = runif(100)
 #' 
 #' #return weighted MSE
-#' rmse_wt(a, b, wt)
+#' rmse_wt(b, a, wt)
 #' 
 #' @export
 #' 
 
 #calculate weighted RMSE
-rmse_wt <- function(y, y_h, wt){
+rmse_wt <- function(y, y_h, wt, na.rm = FALSE){
+  if(na.rm){
+    na <- is.na(y_h)|is.na(y)
+    y_h <- y_h[!na]
+    y <- y[!na]
+    wt <- wt[!na]
+  }
+  
   sqrt(mse_wt(y, y_h, wt))
 }
 
@@ -38,7 +46,13 @@ rmse_wt <- function(y, y_h, wt){
 #' 
 
 #calculate unweighted RMSE
-rmse <- function(y, y_h){
+rmse <- function(y, y_h, na.rm = FALSE){
+  if(na.rm){
+    na <- is.na(y_h)|is.na(y)
+    y_h <- y_h[!na]
+    y <- y[!na]
+  }
+  
   sqrt(mse(y, y_h))
 }
 

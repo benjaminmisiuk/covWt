@@ -54,32 +54,39 @@ symbols(x, y, circles = wt, inches = 0.5, xlim = c(0,6), ylim = c(0,6))
 
 #or we could take a residual variogram model from gstat
 library(gstat)
-mod <- gstat::vgm(psil, "Sph", r, nug)
+mod <- vgm(psil, "Sph", r, nug)
 
 wt <- covWt(dmat = d, model = mod)
 
 symbols(x, y, circles = wt, inches = 0.5, xlim = c(0,6), ylim = c(0,6))
 
-#we can also use gstat to fit a model
-library(sp)
-data(meuse)
-df <- meuse
-coordinates(meuse) = ~x+y
+#we can also use gstat to fit a variogram model
+data("meuse.all")
+plot(meuse.all$x, meuse.all$y)
 
-plot(meuse)
+#obtain the residual variogram after modelling the trend (this is not universal kriging)
+mod <- lm(zinc ~ x + y, data = meuse.all)
+p <- predict(mod)
+meuse.all$res <- meuse.all$zinc - p
 
-#obtain the residual variogram from universal kriging
-g <-variogram(log(zinc)~x+y, meuse)
-fit <- fit.variogram(g, vgm("Sph"))
-
-plot(g, fit)
+v <- variogram(object = res~1, locations = ~x+y, data = meuse.all)
+plot(v)
+fit <- fit.variogram(v, model = vgm("Exp"))
+plot(v, fit)
 
 #calculate the distance matrix
-d = dist(df[ ,c("x", "y")])
+d = dist(meuse.all[ ,c("x", "y")])
 
-#calculate covariance weights using the fitted residual variogram model
+calculate covariance weights using the fitted residual variogram model and plot spatially
 wt <- covWt(dmat = d, model = fit)
 
-symbols(x = df$x, y = df$y, circles = wt, inches = 0.5)
+symbols(x = meuse.all$x, y = meuse.all$y, circles = wt, inches = 0.25)
+
+#calculated unweighted and covariance-weighted statistics between the predicted and observed zinc concentrations
+rmse(p, meuse.all$zinc)
+rmse_wt(p, meuse.all$zinc, wt)
+
+ve(p, meuse.all$zinc)
+ve_wt(p, meuse.all$zinc, wt)
 
 }
