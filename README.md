@@ -104,16 +104,16 @@ rmse(fulmar$fulmar, p)
 rmse_wt(fulmar$fulmar, p, wt)
 ```
 ```
-#[1] 2.359215
-#[1] 2.507958
+#[1] 2.349613
+#[1] 2.497118
 ```
 ```
 ve(fulmar$fulmar, p)
 ve_wt(fulmar$fulmar, p, wt)
 ```
 ```
-#[1] 0.3834001
-#[1] 0.3728367
+#[1] 0.3884092
+#[1] 0.3747837
 ```
 The weighted statistics indicate slightly lower performance than the un-weighted estimates.
 
@@ -147,10 +147,9 @@ rmse_wt(fulmar$fulmar, p, wt)
 ve_wt(fulmar$fulmar, p, wt)
 ```
 ```
-#[1] 2.515283
-#[1] 0.3698575
+#[1] 2.494436
+#[1] 0.37724
 ```
-In this case, we don't see much change using the bagging weights.
 
 # References
 Nahorniak, M., Larsen, D.P., Volk, C., Jordan, C.E., 2015. Using Inverse Probability Bootstrap Sampling to Eliminate Sample Induced Bias in Model Based Analysis of Unequal Probability Samples. PLOS ONE 10, e0131765. https://doi.org/10.1371/journal.pone.0131765
