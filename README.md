@@ -1,9 +1,9 @@
 # covWt
 ### Spatial covariance weighting in R
 
-This package provides functionality and scripts that were used to perform residual covariance-weighted bagging and validation as presented in the paper, *Improved environmental mapping and validation using bagging models with spatially clustered data* (https://doi.org/10.1016/j.ecoinf.2023.102181). 
+This package provides functionality and scripts that were used to perform residual covariance-weighted bagging and validation as presented in the paper, *Improved environmental mapping and validation using bagging models with spatially clustered data* (https://doi.org/10.1016/j.ecoinf.2023.102181). Code used to perform the simulations presented in the study are found in the "covWt\scripts" directory. Suggest opening the script in R to load in custom data and view code annotations.
 
-Code used to perform the simulations presented in the study are found in the "covWt\scripts" directory. Suggest opening the script in R to load in custom data and view code annotations.
+The package also contains functionality for bagging any other models in R (using the functions [bag()] and [bagger()]), and for calculated weighted model metrics.
 
 ## Installation
 You can use the `remotes` package to install the package directly from github. Install `remotes` first if you do not have it. 
