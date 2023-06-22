@@ -10,7 +10,7 @@ You can use the `remotes` package to install the package directly from github. I
 
 ```
 install.packages("remotes")
-remotes::install_github("benjaminmisiuk/covWt", ref = "benjaminmisiuk-patch-1")
+remotes::install_github("benjaminmisiuk/covWt")
 ```
 
 ## Loading functions
