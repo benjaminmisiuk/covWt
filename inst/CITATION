@@ -7,6 +7,9 @@ citEntry(
 		person(c("Craig", "J."), "Brown")),
   year     = "2023",
   url      = "https://github.com/benjaminmisiuk/covWt",
+  journal  = "Ecological Informatics",
+  volume   = "77",
+  pages    = "102181",
   doi      = "https://doi.org/10.1016/j.ecoinf.2023.102181",
   textVersion = "Misiuk, B., Brown, C.J., 2023. Improved environmental mapping and validation using bagging models with spatially clustered data. Ecological Informatics 77, 102181. https://doi.org/10.1016/j.ecoinf.2023.102181"
 )
