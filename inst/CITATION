@@ -1,0 +1,12 @@
+citHeader("To cite covWt in publications, please use:")
+
+citEntry(
+  entry    = "article",
+  title    = "Improved environmental mapping and validation using bagging models with spatially clustered data",
+  author   =  c(person("Benjamin", "Misiuk", email = "benjaminmisiuk@gmail.com"),
+		person(c("Craig", "J."), "Brown")),
+  year     = "2023",
+  url      = "https://github.com/benjaminmisiuk/covWt",
+  doi      = "https://doi.org/10.1016/j.ecoinf.2023.102181",
+  textVersion = "Misiuk, B., Brown, C.J., 2023. Improved environmental mapping and validation using bagging models with spatially clustered data. Ecological Informatics 77, 102181. https://doi.org/10.1016/j.ecoinf.2023.102181"
+)
